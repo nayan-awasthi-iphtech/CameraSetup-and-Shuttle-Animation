@@ -26,7 +26,7 @@ struct CameraSetupAnimation: View {
                     .opacity(0.9)
                     .opacity(showMainBody ? 1 : 0)
                     .offset(y: showMainBody ? 0 : 55)
-  
+     
                 // Inner rectangle: zooms in first
                 Rectangle()
                     .fill(Color(red: 0.12, green: 0.16, blue: 0.27))
