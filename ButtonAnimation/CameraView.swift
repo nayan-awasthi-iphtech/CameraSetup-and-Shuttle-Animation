@@ -105,6 +105,7 @@ struct CameraView: View {
                 }
             }
         }
+        
         .onChange(of: isSetupComplete) { _, isComplete in
             guard isComplete else { return }
             
