@@ -31,7 +31,7 @@ struct CameraSetupAnimation: View {
                 Rectangle()
                     .fill(Color(red: 0.12, green: 0.16, blue: 0.27))
                     .frame(height: 150)
-                    .scaleEffect(showInnerRectangle ? 1 : 0.1)
+                    .scaleEffect(showInnerRectangle ? 1 : 0.1)   
                     .opacity(showInnerRectangle ? 1 : 0)
             }
             .frame(width: 380, height: 280)
