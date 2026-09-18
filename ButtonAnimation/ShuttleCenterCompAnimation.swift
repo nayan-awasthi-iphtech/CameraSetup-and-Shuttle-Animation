@@ -12,6 +12,8 @@ struct ShuttleCenterCompAnimation: View {
     @State private var showInnerCapsule: Bool = false
     @State private var showMainCap: Bool = false
     @State private var showInnerCap: Bool = false
+    @State private var showFlameBody: Bool = false
+    @State private var showFlameAndCylinderAnimation = false
     
     var body: some View {
         ZStack {
@@ -24,6 +26,7 @@ struct ShuttleCenterCompAnimation: View {
             )
             .fill(Color(red: 0.93, green: 0.95, blue: 0.96))
             .scaleEffect(showMainBody ? 1.0 : 0.01)
+            .frame(width: 100, height: 320)
             
             UnevenRoundedRectangle(
                 topLeadingRadius: 35,
@@ -35,7 +38,7 @@ struct ShuttleCenterCompAnimation: View {
             .fill(Color(red: 0.15, green: 0.17, blue: 0.23))
             .frame(width: 100, height: 45)
             .offset(y: -138)
-            .scaleEffect(showMainCap ? 1.0 : 0.001, anchor: .center)     
+            .scaleEffect(showMainCap ? 1.0 : 0.001, anchor: .center)
             
             UnevenRoundedRectangle(
                 topLeadingRadius: 80,
@@ -55,24 +58,38 @@ struct ShuttleCenterCompAnimation: View {
                 .offset(y: 20)
                 .scaleEffect(showInnerCapsule ? 1.0 : 0.001)
             
+            FlameBody(startAnimation: showFlameAndCylinderAnimation)
+                .offset(y: 155)
+                .scaleEffect(showFlameBody ? 1.0 : 0.001, anchor: .center)
         }
-        .frame(width: 60, height: 320)
         
         .onAppear {
+
+            // Main body
             withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
                 showMainBody = true
             }
-          
+
+            // Inner capsule
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.20) {
+
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.65)) {
                     showInnerCapsule = true
                 }
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)){
-                    showMainCap = true
-                    showInnerCap = true
+
+                // Wait for inner capsule to finish
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.65) {
+
+                    // Cap + inner cap + flame
+                    withAnimation(.spring(response: 0.8, dampingFraction: 0.90)) {
+                        showMainCap = true     
+                        showInnerCap = true
+                        showFlameBody = true
+                    }
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.99){
+                    showFlameAndCylinderAnimation = true
                 }
             }
         }
